@@ -1,0 +1,9 @@
+<library path="lib/libwaterplus_map_tools">
+  <class name="waterplus_map_tools/AddWayPoint"
+         type="waterplus_map_tools::AddWayPointTool"
+         base_class_type="rviz::Tool">
+    <description>
+      Tool for adding waypoints on the ground plane in rviz.
+    </description>
+  </class>
+</library>
