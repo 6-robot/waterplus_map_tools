@@ -1,25 +1,19 @@
 #ifndef ADD_WAYPOINT_TOOL_H
 #define ADD_WAYPOINT_TOOL_H
 
-#include <rviz/tool.h>
-
-namespace Ogre
-{
-    class SceneNode;
-    class Vector3;
-}
+#ifndef Q_MOC_RUN
+#include <QObject>
+#include <ros/ros.h>
+#include "rviz/default_plugin/tools/pose_tool.h"
+#endif
 
 namespace rviz
 {
-    class VectorProperty;
-    class VisualizationManager;
-    class ViewportMouseEvent;
-}
+    class Arrow;
+    class DisplayContext;
+    class StringProperty;
 
-namespace waterplus_map_tools
-{
-
-    class AddWayPointTool: public rviz::Tool
+    class AddWayPointTool: public rviz::PoseTool
     {
         Q_OBJECT
         public:
@@ -28,23 +22,18 @@ namespace waterplus_map_tools
 
         virtual void onInitialize();
 
-        virtual void activate();
-        virtual void deactivate();
+        protected:
+        virtual void onPoseSet(double x, double y, double theta);
 
-        virtual int processMouseEvent( rviz::ViewportMouseEvent& event );
-
-        virtual void load( const rviz::Config& config );
-        virtual void save( rviz::Config config ) const;
+        private Q_SLOTS:
+        void updateTopic();
 
         private:
-        void MakeWayPoint( const Ogre::Vector3& position );
-
-        std::vector<Ogre::SceneNode*> waypoint_nodes_;
-        Ogre::SceneNode* moving_waypoint_node_;
-        std::string waypoint_resource_;
-        rviz::VectorProperty* current_waypoint_property_;
+        ros::NodeHandle nh_;
+        ros::Publisher pub_;
+        StringProperty* topic_property_;
     };
 
-} // end namespace waterplus_map_tools
+}
 
 #endif // ADD_WAYPOINT_TOOL_H
