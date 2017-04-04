@@ -2,7 +2,6 @@
 
   <!-- Map server -->
   <node name="map_server" pkg="map_server" type="map_server" args="$(find wpb_home_tutorials)/maps/map.yaml"/>
-
   
   <!-- RViz and TF  -->
   <arg name="rvizconfig" default="$(find waterplus_map_tools)/rviz/addwaypoint.rviz" />
@@ -10,7 +9,7 @@
   <node pkg="tf" type="static_transform_publisher" name="base_to_laser_broadcaster" args="0 0 0 0 0 0 /map /base_link 100"/>
 
   <!-- Map tools  -->
-  <node pkg="waterplus_map_tools" type="wp_waypoint_manager" name="wp_waypoint_manager" output="screen">
+  <node pkg="waterplus_map_tools" type="wp_manager" name="wp_manager" output="screen">
   </node>
 
 </launch>

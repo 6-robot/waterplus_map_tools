@@ -4,6 +4,7 @@ project(waterplus_map_tools)
 find_package(catkin REQUIRED COMPONENTS message_generation rviz roscpp geometry_msgs std_msgs tf visualization_msgs move_base_msgs actionlib cmake_modules )
 
 add_service_files(FILES
+  SaveWaypoints.srv
   AddNewWaypoint.srv
   GetNumOfWaypoints.srv
   GetWaypointByIndex.srv
@@ -44,11 +45,11 @@ add_library(${PROJECT_NAME}
 add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(${PROJECT_NAME} ${QT_LIBRARIES} ${catkin_LIBRARIES})
 
-add_executable(wp_waypoint_manager
-  src/wp_waypoint_manager.cpp
+add_executable(wp_manager
+  src/wp_manager.cpp
 )
-add_dependencies(wp_waypoint_manager ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(wp_waypoint_manager
+add_dependencies(wp_manager ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(wp_manager
   ${catkin_LIBRARIES} ${TinyXML_LIBRARIES}
 )
 
@@ -71,5 +72,13 @@ add_executable(wp_nav_test
 )
 add_dependencies(wp_nav_test ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(wp_nav_test
+  ${catkin_LIBRARIES}
+)
+
+add_executable(wp_saver
+  src/wp_saver.cpp
+)
+add_dependencies(wp_saver ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(wp_saver
   ${catkin_LIBRARIES}
 )
