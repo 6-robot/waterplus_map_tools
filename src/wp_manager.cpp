@@ -166,29 +166,6 @@ bool LoadWaypointsFromFile(std::string inFilename)
     return true;
 }
 
-void Init_Waypoints()
-{
-    // waterplus_map_tools::Waypoint newWayPoint;
-    // newWayPoint.name = "aaa";
-    // newWayPoint.pose.position.x = 0.0;
-    // newWayPoint.pose.position.y = 0.1;
-    // newWayPoint.pose.position.z = 0.3;
-    // newWayPoint.pose.orientation.x = 1.0;
-    // newWayPoint.pose.orientation.y = 1.1;
-    // newWayPoint.pose.orientation.z = 1.2;
-    // newWayPoint.pose.orientation.w = 1.3;
-    // arWaypoint.push_back(newWayPoint);
-    //  newWayPoint.name = "bbb";
-    // newWayPoint.pose.position.x = 1.11;
-    // newWayPoint.pose.position.y = 1.12;
-    // newWayPoint.pose.position.z = 1.13;
-    // newWayPoint.pose.orientation.x = 2.0;
-    // newWayPoint.pose.orientation.y = 2.1;
-    // newWayPoint.pose.orientation.z = 2.2;
-    // newWayPoint.pose.orientation.w = 2.3;
-    // arWaypoint.push_back(newWayPoint);
-}
-
 void Init_Marker()
 {
     marker_waypoints.header.frame_id = "map";
@@ -252,7 +229,6 @@ void DrawTextMarker(std::string inText, int inID, float inScale, float inX, floa
     marker_pub.publish(text_marker);
 }
 
-
 void AddWayPointCallback(const waterplus_map_tools::Waypoint::ConstPtr& wp)
 {
     ROS_INFO("Add_waypoint: %s (%.2f %.2f) (%.2f %.2f %.2f %.2f) ",wp->name.c_str(), wp->pose.position.x, wp->pose.position.y, wp->pose.orientation.x, wp->pose.orientation.y, wp->pose.orientation.z, wp->pose.orientation.w);
@@ -266,11 +242,19 @@ int main(int argc, char** argv)
 {
     ros::init(argc, argv, "wp_waypoint_manager");
 
+    ros::NodeHandle n_param("~");
+    std::string strLoadFile;
+    n_param.param<std::string>("load", strLoadFile, "");
+    if(strLoadFile.length() > 0)
+    {
+        ROS_INFO("Load waypoints from file : %s",strLoadFile.c_str());
+        LoadWaypointsFromFile(strLoadFile);
+    }
+
     ros::NodeHandle nh;
-    ros::Subscriber add_waypoint_sub = nh.subscribe("/waterplus/add_waypoint",10,&AddWayPointCallback);
     marker_pub = nh.advertise<visualization_msgs::Marker>("waypoints_marker", 100);
-    Init_Waypoints();
     Init_Marker();
+    ros::Subscriber add_waypoint_sub = nh.subscribe("/waterplus/add_waypoint",10,&AddWayPointCallback);
 
     ros::ServiceServer srvGetNum = nh.advertiseService("/waterplus/get_num_waypoint", getNumOfWaypoints);
     ros::ServiceServer srvGetWPIndex = nh.advertiseService("/waterplus/get_waypoint_index", getWaypointByIndex);
@@ -285,6 +269,6 @@ int main(int argc, char** argv)
         ros::spinOnce();
         r.sleep();
     }
-    
+
     return 0;
 }
