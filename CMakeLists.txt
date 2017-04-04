@@ -3,17 +3,29 @@ project(waterplus_map_tools)
 
 find_package(catkin REQUIRED COMPONENTS message_generation rviz roscpp geometry_msgs std_msgs tf visualization_msgs move_base_msgs actionlib cmake_modules )
 
-generate_messages(
-  DEPENDENCIES
+add_service_files(FILES
+  AddNewWaypoint.srv
+  GetNumOfWaypoints.srv
+  GetWaypointByIndex.srv
+  GetWaypointByName.srv
+)
+
+add_message_files(FILES
+  Waypoint.msg
+)
+
+generate_messages(DEPENDENCIES
   std_msgs
   geometry_msgs
 )
 
 catkin_package(
+  CATKIN_DEPENDS message_runtime
   INCLUDE_DIRS include
   LIBRARIES waterplus_map_tools 
   DEPENDS TinyXML
   )
+
 
 include_directories(include ${catkin_INCLUDE_DIRS} ${TinyXML_INCLUDE_DIRS})
 link_directories(${catkin_LIBRARY_DIRS})
@@ -26,11 +38,19 @@ add_definitions(-DQT_NO_KEYWORDS)
 find_package(TinyXML REQUIRED)
 
 add_library(${PROJECT_NAME} 
-    src/add_waypoint_tool.h
+    include/add_waypoint_tool.h
     src/add_waypoint_tool.cpp
 )
 add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(${PROJECT_NAME} ${QT_LIBRARIES} ${catkin_LIBRARIES})
+
+add_executable(wp_waypoint_manager
+  src/wp_waypoint_manager.cpp
+)
+add_dependencies(wp_waypoint_manager ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(wp_waypoint_manager
+  ${catkin_LIBRARIES} ${TinyXML_LIBRARIES}
+)
 
 ## Install rules
 
@@ -46,10 +66,10 @@ install(FILES
 DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
 
 
-add_executable(wp_waypoint_manager
-  src/wp_waypoint_manager.cpp
+add_executable(wp_nav_test
+  src/wp_nav_test.cpp
 )
-add_dependencies(wp_waypoint_manager ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(wp_waypoint_manager
-  ${catkin_LIBRARIES} ${TinyXML_LIBRARIES}
+add_dependencies(wp_nav_test ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(wp_nav_test
+  ${catkin_LIBRARIES}
 )

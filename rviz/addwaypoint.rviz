@@ -19,7 +19,7 @@ Panels:
     Expanded:
       - /2D Pose Estimate1
       - /2D Nav Goal1
-      - /Add WayPoint1
+      - /Add Waypoint1
     Name: Tool Properties
     Splitter Ratio: 0.588679
   - Class: rviz/Views
@@ -96,7 +96,7 @@ Visualization Manager:
       Topic: /initialpose
     - Class: rviz/SetGoal
       Topic: /move_base_simple/goal
-    - Class: rviz/AddWayPoint
+    - Class: rviz/AddWaypoint
       Topic: /waterplus/add_waypoint
   Value: true
   Views:
@@ -135,5 +135,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1130
-  X: 760
+  X: 750
   Y: 14
