@@ -1,0 +1,12 @@
+<launch>
+  <master auto="start"/>
+
+  <!--- Run WPR1 nav app-->
+  <include file="$(find wpr1_tutorials)/launch/nav_app.launch" />
+
+  <!-- Map tools  -->
+  <node pkg="waterplus_map_tools" type="wp_manager" name="wp_manager" output="screen">
+    <param name="load" type="string" value="/home/robot/waypoints.xml"/> 
+  </node>
+
+</launch>

@@ -1,0 +1,12 @@
+<launch>
+  <master auto="start"/>
+
+  <!--- Run WPV3 nav app-->
+  <include file="$(find wpv3_tutorials)/launch/nav_app.launch" />
+
+  <!-- Map tools  -->
+  <node pkg="waterplus_map_tools" type="wp_manager" name="wp_manager" output="screen">
+    <param name="load" type="string" value="/home/robot/waypoints.xml"/> 
+  </node>
+
+</launch>

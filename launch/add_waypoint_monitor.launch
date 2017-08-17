@@ -1,0 +1,9 @@
+<launch>
+  
+  <!-- RViz and TF  -->
+  <arg name="rvizconfig" default="$(find waterplus_map_tools)/rviz/addwaypoint.rviz" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" />
+  <node pkg="tf" type="static_transform_publisher" name="base_to_laser_broadcaster" args="0 0 0 0 0 0 /map /base_link 100"/>
+
+
+</launch>
