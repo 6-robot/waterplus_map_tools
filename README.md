@@ -26,7 +26,7 @@ catkin_make
 
 ## 平台介绍
 MapTools工具是[北京六部工坊科技有限公司](http://www.6-robot.com)为旗下WP系列机器人快速设置地图航点所设计的辅助工具,具有操作简单,效果直观的优点。目前支持启智ROS,启程3,启程4和启明1等型号的机器人.
-![MapTools pic](./media/waypoint.png)
+![MapTools pic](./media/map_tools.png)
 
 ## 操作方法
 
