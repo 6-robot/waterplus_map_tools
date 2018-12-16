@@ -1,0 +1,23 @@
+<launch>
+  <master auto="start"/>
+
+  <!-- Run WPR1 nav app-->
+  <include file="$(find wpr1_tutorials)/launch/nav.launch" />
+  <node pkg="wpr1_behaviors" type="wpr1_grab_server" name="wpr1_grab_server" />
+  <node pkg="wpr1_behaviors" type="wpr1_pass_server" name="wpr1_pass_server" />
+
+  <!-- Map tools  -->
+  <node pkg="waterplus_map_tools" type="wp_manager" name="wp_manager" output="screen">
+    <param name="load" type="string" value="/home/robot/waypoints.xml"/> 
+  </node>
+  
+  <!-- Nav remote -->
+  <node pkg="waterplus_map_tools" type="wp_nav_remote" name="wp_nav_remote" output="screen"/>
+
+  <!-- Odom report -->
+  <node pkg="waterplus_map_tools" type="wp_nav_odom_report" name="wp_nav_odom_report" output="log"/>
+
+  <!-- <node pkg="tf" type="static_transform_publisher" name="link1_broadcaster" args="0 0 0 0 0 0 1 map odom 100" /> -->
+  <!-- <node pkg="tf" type="static_transform_publisher" name="link2_broadcaster" args="0 0 0 0 0 0 1 odom base_footprint 100" /> -->
+
+</launch>

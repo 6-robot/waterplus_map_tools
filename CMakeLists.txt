@@ -89,3 +89,21 @@ add_dependencies(wp_saver ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_
 target_link_libraries(wp_saver
   ${catkin_LIBRARIES}
 )
+
+add_executable(wp_nav_remote
+  src/wp_nav_remote.cpp
+  src/network/UDPServer.c
+)
+add_dependencies(wp_nav_remote ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(wp_nav_remote
+  ${catkin_LIBRARIES}
+)
+
+add_executable(wp_nav_odom_report
+  src/wp_nav_odom_report.cpp
+  src/network/UDPClient.c
+)
+add_dependencies(wp_nav_odom_report ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(wp_nav_odom_report
+  ${catkin_LIBRARIES}
+)
