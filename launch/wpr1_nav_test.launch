@@ -2,7 +2,17 @@
   <master auto="start"/>
 
   <!--- Run WPR1 nav app-->
-  <include file="$(find wpr1_tutorials)/launch/nav_app.launch" />
+  <include file="$(find wpr1_remote)/launch/nav_app.launch" />
+
+  <!-- RViz and TF tree -->
+  <arg name="model" default="$(find wpr1_bringup)/urdf/wpr1.urdf"/>
+  <arg name="gui" default="true" />
+  <arg name="rvizconfig" default="$(find waterplus_map_tools)/rviz/nav.rviz" />
+
+  <param name="robot_description" command="$(find xacro)/xacro.py $(arg model)" />
+  <param name="use_gui" value="$(arg gui)"/>
+
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" />
 
   <!-- Map tools  -->
   <node pkg="waterplus_map_tools" type="wp_manager" name="wp_manager" output="screen">
