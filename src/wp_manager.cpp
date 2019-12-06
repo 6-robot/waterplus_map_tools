@@ -45,8 +45,11 @@
 #include <string>
 
 static std::vector <waterplus_map_tools::Waypoint> arWaypoint;
+static std::vector <waterplus_map_tools::Waypoint> arCharger;
 static ros::Publisher marker_pub;
+static ros::Publisher charger_pub;
 static visualization_msgs::Marker marker_waypoints;
+static visualization_msgs::Marker marker_chargers;
 static visualization_msgs::Marker text_marker;
 
 bool getNumOfWaypoints(waterplus_map_tools::GetNumOfWaypoints::Request &req, waterplus_map_tools::GetNumOfWaypoints::Response &res)
@@ -98,6 +101,34 @@ bool getWaypointByName(waterplus_map_tools::GetWaypointByName::Request &req, wat
     else
     {
         ROS_INFO("Get_wp_name: failed! There is no waypoint name %s", reqName.c_str());
+        return false;
+    }
+}
+
+bool getChargerByName(waterplus_map_tools::GetWaypointByName::Request &req, waterplus_map_tools::GetWaypointByName::Response &res)
+{
+    std::string reqName = req.name;
+    int nNumCh = arCharger.size();
+    bool bResultGetCh = false;
+    for(int i=0;i<nNumCh;i++)
+    {
+        std::size_t found = arCharger[i].name.find(reqName); 
+        if(found != std::string::npos)
+        {
+            res.name = arCharger[i].name;
+            res.pose = arCharger[i].pose;
+            bResultGetCh = true;
+            break;
+        }
+    }
+    if(bResultGetCh == true)
+    {
+        ROS_INFO("Get_charger_name: name = %s", res.name.c_str());
+        return true;
+    }
+    else
+    {
+        ROS_INFO("Get_charger_name: failed! There is no charger name %s", reqName.c_str());
         return false;
     }
 }
@@ -196,6 +227,36 @@ bool LoadWaypointsFromFile(std::string inFilename)
         arWaypoint.push_back(newWayPoint);
     }
 
+    for(TiXmlNode* item = RootElement->FirstChild("Charger");item;item = item->NextSibling("Charger"))
+    {
+        TiXmlNode* child = item->FirstChild();
+        const char* name = child->ToElement()->GetText();
+        ROS_INFO("Load charger : %s", name);
+        newWayPoint.name = std::string(name); 
+        child = item->IterateChildren(child);
+        const char* pos_x = child->ToElement()->GetText();
+        newWayPoint.pose.position.x = std::atof(pos_x);
+        child = item->IterateChildren(child);
+        const char* pos_y = child->ToElement()->GetText();
+        newWayPoint.pose.position.y = std::atof(pos_y);
+        child = item->IterateChildren(child);
+        const char* pos_z = child->ToElement()->GetText();
+        newWayPoint.pose.position.z = std::atof(pos_z);
+        child = item->IterateChildren(child);
+        const char* ori_x = child->ToElement()->GetText();
+        newWayPoint.pose.orientation.x = std::atof(ori_x);
+        child = item->IterateChildren(child);
+        const char* ori_y = child->ToElement()->GetText();
+        newWayPoint.pose.orientation.y = std::atof(ori_y);
+        child = item->IterateChildren(child);
+        const char* ori_z = child->ToElement()->GetText();
+        newWayPoint.pose.orientation.z = std::atof(ori_z);
+        child = item->IterateChildren(child);
+        const char* ori_w = child->ToElement()->GetText();
+        newWayPoint.pose.orientation.w = std::atof(ori_w);
+        arCharger.push_back(newWayPoint);
+    }
+
     return true;
 }
 
@@ -213,9 +274,22 @@ void Init_Marker()
     marker_waypoints.color.g = 0.0;
     marker_waypoints.color.b = 1.0;
     marker_waypoints.color.a = 1.0;
+
+    marker_chargers.header.frame_id = "map";
+    marker_chargers.ns = "marker_waypoints";
+    marker_chargers.action = visualization_msgs::Marker::ADD;
+    marker_chargers.type = visualization_msgs::Marker::MESH_RESOURCE;
+    marker_chargers.mesh_resource = "package://waterplus_map_tools/meshes/charger.dae";
+    marker_chargers.scale.x = 1;
+    marker_chargers.scale.y = 1;
+    marker_chargers.scale.z = 1;
+    marker_chargers.color.r = 0.5;
+    marker_chargers.color.g = 0.0;
+    marker_chargers.color.b = 1.0;
+    marker_chargers.color.a = 1.0;
 }
 
-void DrawTextMarker(std::string inText, int inID, float inScale, float inX, float inY, float inZ, float inR, float inG, float inB);
+void DrawTextMarker(ros::Publisher* inPub, std::string inText, int inID, float inScale, float inX, float inY, float inZ, float inR, float inG, float inB);
 void PublishWaypointsMarker()
 {
     int nNumWP = arWaypoint.size();
@@ -233,12 +307,32 @@ void PublishWaypointsMarker()
         float wp_y = arWaypoint[i].pose.position.y;
 
         std::string wp_name = arWaypoint[i].name;
-        DrawTextMarker(wp_name,i,0.2,wp_x,wp_y,0.55,0,0.5,1.0);
+        DrawTextMarker(&marker_pub,wp_name,i,0.2,wp_x,wp_y,0.55,1.0,0.0,0.0);
+        ros::spinOnce();
+    }
+
+    int nNumCh = arCharger.size();
+    for(int i=0; i<nNumCh ; i++ )
+    {
+        marker_chargers.id = i;
+        marker_chargers.pose.position.x = arCharger[i].pose.position.x;
+        marker_chargers.pose.position.y = arCharger[i].pose.position.y;
+        marker_chargers.pose.position.z = -0.01;
+        marker_chargers.pose.orientation = arCharger[i].pose.orientation;
+        
+        charger_pub.publish(marker_chargers);
+        ros::spinOnce();
+
+        float ch_x = arCharger[i].pose.position.x;
+        float ch_y = arCharger[i].pose.position.y;
+
+        std::string wp_name = arCharger[i].name;
+        DrawTextMarker(&charger_pub, wp_name,i,0.2,ch_x,ch_y,0.35,1.0,0.0,0.0);
         ros::spinOnce();
     }
 }
 
-void DrawTextMarker(std::string inText, int inID, float inScale, float inX, float inY, float inZ, float inR, float inG, float inB)
+void DrawTextMarker(ros::Publisher* inPub, std::string inText, int inID, float inScale, float inX, float inY, float inZ, float inR, float inG, float inB)
 {
     text_marker.header.frame_id = "map";
     text_marker.ns = "text";
@@ -259,7 +353,7 @@ void DrawTextMarker(std::string inText, int inID, float inScale, float inX, floa
 
     text_marker.text = inText;
 
-    marker_pub.publish(text_marker);
+    inPub->publish(text_marker);
 }
 
 void AddWayPointCallback(const waterplus_map_tools::Waypoint::ConstPtr& wp)
@@ -286,6 +380,7 @@ int main(int argc, char** argv)
 
     ros::NodeHandle nh;
     marker_pub = nh.advertise<visualization_msgs::Marker>("waypoints_marker", 100);
+    charger_pub = nh.advertise<visualization_msgs::Marker>("chargers_marker", 100);
     Init_Marker();
     ros::Subscriber add_waypoint_sub = nh.subscribe("/waterplus/add_waypoint",10,&AddWayPointCallback);
 
@@ -293,6 +388,8 @@ int main(int argc, char** argv)
     ros::ServiceServer srvGetWPIndex = nh.advertiseService("/waterplus/get_waypoint_index", getWaypointByIndex);
     ros::ServiceServer srvGetWPName = nh.advertiseService("/waterplus/get_waypoint_name", getWaypointByName);
     ros::ServiceServer srvSaveWP = nh.advertiseService("/waterplus/save_waypoints", saveWaypoints);
+
+    ros::ServiceServer srvGetChargerName = nh.advertiseService("/waterplus/get_charger_name", getChargerByName);
 
     ros::Rate r(10);
 

@@ -9,6 +9,7 @@ add_service_files(FILES
   GetNumOfWaypoints.srv
   GetWaypointByIndex.srv
   GetWaypointByName.srv
+  GetChargerByName.srv
 )
 
 add_message_files(FILES
@@ -105,5 +106,13 @@ add_executable(wp_nav_odom_report
 )
 add_dependencies(wp_nav_odom_report ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(wp_nav_odom_report
+  ${catkin_LIBRARIES}
+)
+
+add_executable(charger_get_position
+  src/charger_get_position.cpp
+)
+add_dependencies(charger_get_position ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(charger_get_position
   ${catkin_LIBRARIES}
 )
