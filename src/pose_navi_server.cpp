@@ -45,40 +45,25 @@
 #include <waterplus_map_tools/GetWaypointByName.h>
 
 static bool bNewCmd = false;
-ros::ServiceClient cliGetWPName;
-static geometry_msgs::Pose wp_pose;
+static geometry_msgs::Pose goal_pose;
 static ros::Publisher result_pub;
 static std_msgs::String result_msg;
 
 typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
 
-void NaviWaypointCB(const std_msgs::String::ConstPtr &msg)
+void NaviPoseCB(const geometry_msgs::Pose::ConstPtr &msg)
 {
-    waterplus_map_tools::GetWaypointByName srvN;
-    srvN.request.name = msg->data;
-    if (cliGetWPName.call(srvN))
-    {
-        wp_pose = srvN.response.pose;
-        std::string name = srvN.response.name;
-        float x = srvN.response.pose.position.x;
-        float y = srvN.response.pose.position.y;
-        ROS_INFO("Get_wp_name: name = %s (%.2f,%.2f)", name.c_str(),x,y);
-    }
-    else
-    {
-        ROS_ERROR("Failed to call service get_waypoint_name");
-    }
+    goal_pose = *msg;
     bNewCmd = true;
 }
 
 int main(int argc, char** argv)
 {
-    ros::init(argc, argv, "wp_navi_server");
+    ros::init(argc, argv, "pose_navi_server");
 
     ros::NodeHandle n;
-    ros::Subscriber navi_name_sub = n.subscribe("/waterplus/navi_waypoint", 10, NaviWaypointCB);
+    ros::Subscriber navi_name_sub = n.subscribe("/waterplus/navi_pose", 10, NaviPoseCB);
     result_pub = n.advertise<std_msgs::String>("/waterplus/navi_result", 10);
-    cliGetWPName = n.serviceClient<waterplus_map_tools::GetWaypointByName>("/waterplus/get_waypoint_name");
 
     MoveBaseClient ac("move_base", true);
     move_base_msgs::MoveBaseGoal goal;
@@ -91,16 +76,16 @@ int main(int argc, char** argv)
         {
             goal.target_pose.header.frame_id = "map";
             goal.target_pose.header.stamp = ros::Time::now();
-            goal.target_pose.pose = wp_pose;
+            goal.target_pose.pose = goal_pose;
             ac.sendGoal(goal);
             ac.waitForResult();
 
             if(ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED)
             {
-                ROS_INFO("Arrived at WayPoint !");
+                ROS_INFO("Arrived at Pose ( %.2f , %.2f ) !",goal_pose.position.x, goal_pose.position.y);
             }
             else
-                ROS_WARN("Failed to get to WayPoint ..." );
+                ROS_WARN("Failed to get to WayPoint ( %.2f , %.2f )..." ,goal_pose.position.x, goal_pose.position.y);
             result_msg.data = "done";
             result_pub.publish(result_msg);
             bNewCmd = false;

@@ -124,3 +124,11 @@ add_dependencies(wp_navi_server ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXP
 target_link_libraries(wp_navi_server
   ${catkin_LIBRARIES}
 )
+
+add_executable(pose_navi_server
+  src/pose_navi_server.cpp
+)
+add_dependencies(pose_navi_server ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(pose_navi_server
+  ${catkin_LIBRARIES}
+)
