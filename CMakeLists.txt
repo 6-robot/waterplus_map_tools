@@ -116,3 +116,11 @@ add_dependencies(charger_get_position ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catk
 target_link_libraries(charger_get_position
   ${catkin_LIBRARIES}
 )
+
+add_executable(wp_navi_server
+  src/wp_navi_server.cpp
+)
+add_dependencies(wp_navi_server ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(wp_navi_server
+  ${catkin_LIBRARIES}
+)

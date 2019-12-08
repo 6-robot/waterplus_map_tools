@@ -176,6 +176,21 @@ bool SaveWaypointsToFile(std::string inFilename)
         RootElement->InsertEndChild(*WaypointElement);  
     }
 
+    int nNumCharger = arCharger.size();
+    for(int i=0;i<nNumCharger;i++)
+    {
+        TiXmlElement *ChargerElement = new TiXmlElement("Charger");
+        ChargerElement->InsertEndChild(TiXmlElement("Name"))->InsertEndChild(TiXmlText(arCharger[i].name));
+        ChargerElement->InsertEndChild(TiXmlElement("Pos_x"))->InsertEndChild(TiXmlText(Flt2Str(arCharger[i].pose.position.x)));
+        ChargerElement->InsertEndChild(TiXmlElement("Pos_y"))->InsertEndChild(TiXmlText(Flt2Str(arCharger[i].pose.position.y)));
+        ChargerElement->InsertEndChild(TiXmlElement("Pos_z"))->InsertEndChild(TiXmlText(Flt2Str(arCharger[i].pose.position.z)));
+        ChargerElement->InsertEndChild(TiXmlElement("Ori_x"))->InsertEndChild(TiXmlText(Flt2Str(arCharger[i].pose.orientation.x)));
+        ChargerElement->InsertEndChild(TiXmlElement("Ori_y"))->InsertEndChild(TiXmlText(Flt2Str(arCharger[i].pose.orientation.y)));
+        ChargerElement->InsertEndChild(TiXmlElement("Ori_z"))->InsertEndChild(TiXmlText(Flt2Str(arCharger[i].pose.orientation.z)));
+        ChargerElement->InsertEndChild(TiXmlElement("Ori_w"))->InsertEndChild(TiXmlText(Flt2Str(arCharger[i].pose.orientation.w)));
+        RootElement->InsertEndChild(*ChargerElement);  
+    }
+
     bool res = docSave->SaveFile(inFilename);
     if(res == true)
         ROS_INFO("Saved waypoints to file! filename = %s", inFilename.c_str());
