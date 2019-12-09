@@ -68,6 +68,14 @@ int main(int argc, char** argv)
     MoveBaseClient ac("move_base", true);
     move_base_msgs::MoveBaseGoal goal;
 
+    //wait for the action server to come up
+    while(!ac.waitForServer(ros::Duration(5.0)))
+    {
+        if(!ros::ok())
+            break;
+        ROS_INFO("Waiting for the move_base action server to come up");
+    }
+    
     ros::Rate r(30);
 
     while(ros::ok())
