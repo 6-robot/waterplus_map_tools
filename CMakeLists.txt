@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(waterplus_map_tools)
 
-find_package(catkin REQUIRED COMPONENTS message_generation rviz roscpp geometry_msgs std_msgs tf visualization_msgs move_base_msgs actionlib cmake_modules )
+find_package(catkin REQUIRED COMPONENTS message_generation rviz roscpp geometry_msgs std_msgs tf visualization_msgs interactive_markers move_base_msgs actionlib cmake_modules )
 
 add_service_files(FILES
   SaveWaypoints.srv
@@ -53,14 +53,6 @@ add_library(${PROJECT_NAME}
 add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(${PROJECT_NAME} ${QT_LIBRARIES} ${catkin_LIBRARIES})
 
-add_executable(wp_manager
-  src/wp_manager.cpp
-)
-add_dependencies(wp_manager ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(wp_manager
-  ${catkin_LIBRARIES} ${TinyXML_LIBRARIES}
-)
-
 ## Install rules
 
 install(TARGETS
@@ -74,6 +66,21 @@ install(FILES
   waterplus_map_tools_plugin.xml
 DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
 
+add_executable(wp_manager
+  src/wp_manager.cpp
+)
+add_dependencies(wp_manager ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(wp_manager
+  ${catkin_LIBRARIES} ${TinyXML_LIBRARIES}
+)
+
+add_executable(wp_edit_node
+  src/wp_edit_node.cpp
+)
+add_dependencies(wp_edit_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(wp_edit_node
+  ${catkin_LIBRARIES} ${TinyXML_LIBRARIES}
+)
 
 add_executable(wp_nav_test
   src/wp_nav_test.cpp
