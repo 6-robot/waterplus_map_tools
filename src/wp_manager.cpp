@@ -379,6 +379,13 @@ void AddWayPointCallback(const waterplus_map_tools::Waypoint::ConstPtr& wp)
     arWaypoint.push_back(newWayPoint);
 }
 
+void AddChargerCallback(const waterplus_map_tools::Waypoint::ConstPtr& wp)
+{
+    ROS_INFO("Add_charger: %s (%.2f %.2f) (%.2f %.2f %.2f %.2f) ",wp->name.c_str(), wp->pose.position.x, wp->pose.position.y, wp->pose.orientation.x, wp->pose.orientation.y, wp->pose.orientation.z, wp->pose.orientation.w);
+    waterplus_map_tools::Waypoint newCharger;
+    newCharger = *wp;
+    arCharger.push_back(newCharger);
+}
 
 int main(int argc, char** argv)
 {
@@ -398,6 +405,7 @@ int main(int argc, char** argv)
     charger_pub = nh.advertise<visualization_msgs::Marker>("chargers_marker", 100);
     Init_Marker();
     ros::Subscriber add_waypoint_sub = nh.subscribe("/waterplus/add_waypoint",10,&AddWayPointCallback);
+    ros::Subscriber add_charger_sub = nh.subscribe("/waterplus/add_charger",10,&AddChargerCallback);
 
     ros::ServiceServer srvGetNum = nh.advertiseService("/waterplus/get_num_waypoint", getNumOfWaypoints);
     ros::ServiceServer srvGetWPIndex = nh.advertiseService("/waterplus/get_waypoint_index", getWaypointByIndex);

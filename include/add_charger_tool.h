@@ -1,5 +1,5 @@
-#ifndef ADD_WAYPOINT_TOOL_H
-#define ADD_WAYPOINT_TOOL_H
+#ifndef ADD_CHARGER_TOOL_H
+#define ADD_CHARGER_TOOL_H
 
 #ifndef Q_MOC_RUN
 #include <QObject>
@@ -13,12 +13,12 @@ namespace rviz
     class DisplayContext;
     class StringProperty;
 
-    class AddWaypointTool: public rviz::PoseTool
+    class AddChargerTool: public rviz::PoseTool
     {
         Q_OBJECT
         public:
-        AddWaypointTool();
-        ~AddWaypointTool();
+        AddChargerTool();
+        ~AddChargerTool();
 
         virtual void onInitialize();
 
@@ -31,10 +31,10 @@ namespace rviz
         private:
         ros::NodeHandle nh_;
         ros::Publisher pub_;
-        ros::ServiceClient cliGetWPName;
+        ros::ServiceClient cliGetChName;
         StringProperty* topic_property_;
     };
 
 }
 
-#endif // ADD_WAYPOINT_TOOL_H
+#endif // ADD_CHARGER_TOOL_H

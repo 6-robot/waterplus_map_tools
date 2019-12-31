@@ -20,6 +20,7 @@ Panels:
       - /2D Pose Estimate1
       - /2D Nav Goal1
       - /Add Waypoint1
+      - /Add Charger1
     Name: Tool Properties
     Splitter Ratio: 0.588679016
   - Class: rviz/Views
@@ -79,7 +80,7 @@ Visualization Manager:
       Marker Topic: /text_marker
       Name: TextMarker
       Namespaces:
-        {}
+        text: true
       Queue Size: 100
       Value: true
   Enabled: true
@@ -102,6 +103,8 @@ Visualization Manager:
       Topic: /move_base_simple/goal
     - Class: rviz/AddWaypoint
       Topic: /waterplus/add_waypoint
+    - Class: rviz/AddCharger
+      Topic: /waterplus/add_charger
   Value: true
   Views:
     Current:
@@ -113,9 +116,9 @@ Visualization Manager:
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.814972579
-        Y: -1.68094957
-        Z: -0.339850724
+        X: 0.130032673
+        Y: -1.10872293
+        Z: -0.59274745
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
