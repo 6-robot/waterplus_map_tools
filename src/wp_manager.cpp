@@ -391,14 +391,29 @@ int main(int argc, char** argv)
 {
     ros::init(argc, argv, "wp_waypoint_manager");
 
-    ros::NodeHandle n_param("~");
     std::string strLoadFile;
-    n_param.param<std::string>("load", strLoadFile, "");
+    char const* home = getenv("HOME");
+    strLoadFile = home;
+    strLoadFile += "/waypoints.xml";
+
+    ros::NodeHandle n_param("~");
+    std::string strParamFile;
+    n_param.param<std::string>("load", strParamFile, "");
+    if(strParamFile.length() > 0)
+    {
+        strLoadFile = strParamFile;
+    }
+
     if(strLoadFile.length() > 0)
     {
         ROS_INFO("Load waypoints from file : %s",strLoadFile.c_str());
         LoadWaypointsFromFile(strLoadFile);
     }
+    else
+    {
+        ROS_WARN("strLoadFile is empty. Failed to load waypoints!");
+    }
+    
 
     ros::NodeHandle nh;
     marker_pub = nh.advertise<visualization_msgs::Marker>("waypoints_marker", 100);

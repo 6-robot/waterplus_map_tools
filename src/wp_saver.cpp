@@ -45,11 +45,11 @@ int main(int argc, char** argv)
     ros::ServiceClient cliSave = nh.serviceClient<waterplus_map_tools::SaveWaypoints>("/waterplus/save_waypoints");
     waterplus_map_tools::SaveWaypoints srvS;
 
-    char basePath[1024];
-    memset(basePath, '\0', sizeof(basePath));
-    getcwd(basePath, 999);
-    std::string base_path(basePath);
-    srvS.request.filename = base_path + "/waypoints.xml";
+    std::string strSaveFile;
+    char const* home = getenv("HOME");
+    strSaveFile = home;
+    strSaveFile += "/waypoints.xml";
+    srvS.request.filename = strSaveFile;
 
     for(int i=1; i<argc; i++)
     {

@@ -9,8 +9,6 @@
   <node pkg="tf" type="static_transform_publisher" name="base_to_laser_broadcaster" args="0 0 0 0 0 0 /map /base_link 100"/>
 
   <!-- Map tools  -->
-  <node pkg="waterplus_map_tools" type="wp_edit_node" name="wp_edit_node" output="screen">
-    <param name="load" type="string" value="/home/robot/waypoints.xml"/> 
-  </node>
+  <node pkg="waterplus_map_tools" type="wp_edit_node" name="wp_edit_node" output="screen" />
 
 </launch>
