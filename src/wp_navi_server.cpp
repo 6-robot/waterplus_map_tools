@@ -106,10 +106,13 @@ int main(int argc, char** argv)
             if(ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED)
             {
                 ROS_INFO("Arrived at WayPoint !");
+                result_msg.data = "done";
             }
             else
+            {
                 ROS_WARN("Failed to get to WayPoint ..." );
-            result_msg.data = "done";
+                result_msg.data = "failure";
+            }
             result_pub.publish(result_msg);
             bNewCmd = false;
         }
