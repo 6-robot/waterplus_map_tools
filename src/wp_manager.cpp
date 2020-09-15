@@ -105,6 +105,31 @@ bool getWaypointByName(waterplus_map_tools::GetWaypointByName::Request &req, wat
     }
 }
 
+bool getNumOfChargers(waterplus_map_tools::GetNumOfWaypoints::Request &req, waterplus_map_tools::GetNumOfWaypoints::Response &res)
+{
+    res.num = arCharger.size();
+    ROS_INFO("Get_num_ch: num_ch = %d", res.num);
+    return true;
+}
+
+bool getChargerByIndex(waterplus_map_tools::GetWaypointByIndex::Request &req, waterplus_map_tools::GetWaypointByIndex::Response &res)
+{
+    int nIndex = req.index;
+    int nNumCh = arCharger.size();
+    if(nIndex >= 0 && nIndex < nNumCh)
+    {
+        res.name = arCharger[nIndex].name;
+        res.pose = arCharger[nIndex].pose;
+        ROS_INFO("Get_ch_index: name = %s", arCharger[nIndex].name.c_str());
+        return true;
+    }
+    else
+    {
+        ROS_INFO("Get_ch_index: failed! index = %d , num_ch= %d", nIndex , nNumCh);
+        return false;
+    }
+}
+
 bool getChargerByName(waterplus_map_tools::GetWaypointByName::Request &req, waterplus_map_tools::GetWaypointByName::Response &res)
 {
     std::string reqName = req.name;
@@ -427,6 +452,8 @@ int main(int argc, char** argv)
     ros::ServiceServer srvGetWPName = nh.advertiseService("/waterplus/get_waypoint_name", getWaypointByName);
     ros::ServiceServer srvSaveWP = nh.advertiseService("/waterplus/save_waypoints", saveWaypoints);
 
+    ros::ServiceServer srvGetChargerNum = nh.advertiseService("/waterplus/get_num_charger", getNumOfChargers);
+    ros::ServiceServer srvGetChargerIndex = nh.advertiseService("/waterplus/get_charger_index", getChargerByIndex);
     ros::ServiceServer srvGetChargerName = nh.advertiseService("/waterplus/get_charger_name", getChargerByName);
 
     ros::Rate r(10);
