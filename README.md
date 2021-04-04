@@ -2,21 +2,25 @@
 
 ## 使用步骤
 
-1. 安装ROS(kinetic/indigo)
+1. 安装ROS(indigo/kinetic/melodic/noetic)
 2. 配置好开发环境. [配置方法](http://wiki.ros.org/ROS/Tutorials/InstallingandConfiguringROSEnvironment)
-3. 安装依赖项:
-```
-sudo apt-get install ros-indigo-map-server
-sudo apt-get install ros-indigo-navigation
-```
-```
-sudo apt-get install ros-kinetic-map-server
-sudo apt-get install ros-kinetic-navigation
-```
-4. 获取源码:
+3. 获取源码:
 ```
 cd ~/catkin_ws/src/
 git clone https://github.com/6-robot/waterplus_map_tools.git
+```
+4. 安装依赖项(根据ROS版本选择其中一个):
+```
+~/catkin_ws/src/waterplus_map_tools/scripts/install_for_indigo.sh
+```
+```
+~/catkin_ws/src/waterplus_map_tools/scripts/install_for_kinetic.sh
+```
+```
+~/catkin_ws/src/waterplus_map_tools/scripts/install_for_melodic.sh
+```
+```
+~/catkin_ws/src/waterplus_map_tools/scripts/install_for_noetic.sh
 ```
 5. 编译
 ```

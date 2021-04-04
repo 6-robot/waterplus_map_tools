@@ -1,0 +1,3 @@
+#!/bin/bash
+sudo apt-get install ros-noetic-map-server
+sudo apt-get install ros-noetic-navigation
