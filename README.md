@@ -29,7 +29,7 @@ catkin_make
 ```
 
 ## 平台介绍
-MapTools工具是[北京六部工坊科技有限公司](http://www.6-robot.com)为旗下WP系列机器人快速设置地图航点所设计的辅助工具,具有操作简单,效果直观的优点。目前支持启智ROS,启程3,启程4和启明1等型号的机器人.
+MapTools工具是[北京六部工坊科技有限公司](http://www.6-robot.com)为旗下WP系列机器人快速设置地图航点所设计的辅助工具,具有操作简单,效果直观的优点。目前支持启智ROS,启智AI,启智MANI,启程3,启程4和启明1等型号的机器人.
 ![Nav pic](./media/wpb_home_nav.png)
 
 ## 操作方法
@@ -39,13 +39,21 @@ MapTools工具是[北京六部工坊科技有限公司](http://www.6-robot.com)�
 ```
 roslaunch waterplus_map_tools add_waypoint.launch
 ```
-对于启明1这类使用远程开发模式的机器人,在机载电脑端运行如下指令:
+启智AI:
 ```
-roslaunch waterplus_map_tools add_waypoint_app.launch
+roslaunch waterplus_map_tools add_waypoint_ai.launch
 ```
-然后在开发机端运行如下指令打开地图(记得先将ROS_MASTER_URI指向机器人):
+启智MANI:
 ```
-roslaunch waterplus_map_tools add_waypoint_monitor.launch
+roslaunch waterplus_map_tools add_waypoint_mani.launch
+```
+启程3:
+```
+roslaunch waterplus_map_tools add_waypoint_wpv3.launch
+```
+启明1:
+```
+roslaunch waterplus_map_tools add_waypoint_wpr1.launch
 ```
 ![1 pic](./media/map.png)
 
