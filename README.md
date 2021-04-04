@@ -35,9 +35,9 @@ MapTools工具是[北京六部工坊科技有限公司](http://www.6-robot.com)�
 ## 操作方法
 
 ### 1. 打开地图
-对于启智ROS这类使用本地开发模式的机器人,使用如下指令打开地图:
+启智ROS:
 ```
-roslaunch waterplus_map_tools wpb_home_nav_test.launch
+roslaunch waterplus_map_tools add_waypoint.launch
 ```
 对于启明1这类使用远程开发模式的机器人,在机载电脑端运行如下指令:
 ```
