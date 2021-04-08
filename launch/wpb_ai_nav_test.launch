@@ -56,5 +56,8 @@
   <node pkg="waterplus_map_tools" type="wp_manager" name="wp_manager" output="screen">
     <param name="load" type="string" value="/home/nvidia/waypoints.xml"/> 
   </node>
+  
+  <!-- WP_navi_server  -->
+  <node pkg="waterplus_map_tools" type="wp_navi_server" name="wp_navi_server" output="screen"/>
 
 </launch>

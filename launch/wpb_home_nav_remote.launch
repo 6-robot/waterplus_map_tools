@@ -57,6 +57,9 @@
     <param name="load" type="string" value="/home/robot/waypoints.xml"/> 
   </node>
 
+  <!-- WP_navi_server  -->
+  <node pkg="waterplus_map_tools" type="wp_navi_server" name="wp_navi_server" output="screen"/>
+
   <!-- Nav remote -->
   <node pkg="waterplus_map_tools" type="wp_nav_remote" name="wp_nav_remote" output="screen"/>
 

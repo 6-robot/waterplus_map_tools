@@ -19,4 +19,7 @@
     <param name="load" type="string" value="/home/master/waypoints.xml"/> 
   </node>
 
+  <!-- WP_navi_server  -->
+  <node pkg="waterplus_map_tools" type="wp_navi_server" name="wp_navi_server" output="screen"/>
+
 </launch>
