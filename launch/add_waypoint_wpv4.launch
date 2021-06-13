@@ -1,0 +1,14 @@
+<launch>
+
+  <!-- Map server -->
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find wpv4_tutorials)/maps/map.yaml"/>
+  
+  <!-- RViz and TF  -->
+  <arg name="rvizconfig" default="$(find waterplus_map_tools)/rviz/editwaypoints.rviz" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" />
+  <node pkg="tf" type="static_transform_publisher" name="base_to_laser_broadcaster" args="0 0 0 0 0 0 /map /base_link 100"/>
+
+  <!-- Map tools  -->
+  <node pkg="waterplus_map_tools" type="wp_edit_node" name="wp_edit_node" output="screen"/>
+
+</launch>
