@@ -656,13 +656,13 @@ int main(int argc, char** argv)
     pWaypointServer = &wp_server;
     
     marker_pub = nh.advertise<visualization_msgs::Marker>("text_marker", 100);
-    ros::Subscriber add_waypoint_sub = nh.subscribe("/waterplus/add_waypoint",10,&AddWayPointCallback);
-    ros::Subscriber add_charger_sub = nh.subscribe("/waterplus/add_charger",10,&AddChargerCallback);
-    ros::ServiceServer srvGetNum = nh.advertiseService("/waterplus/get_num_waypoint", getNumOfWaypoints);
-    ros::ServiceServer srvGetWPIndex = nh.advertiseService("/waterplus/get_waypoint_index", getWaypointByIndex);
-    ros::ServiceServer srvGetWPName = nh.advertiseService("/waterplus/get_waypoint_name", getWaypointByName);
-    ros::ServiceServer srvSaveWP = nh.advertiseService("/waterplus/save_waypoints", saveWaypoints);
-    ros::ServiceServer srvGetChargerName = nh.advertiseService("/waterplus/get_charger_name", getChargerByName);
+    ros::Subscriber add_waypoint_sub = nh.subscribe("waterplus/add_waypoint",10,&AddWayPointCallback);
+    ros::Subscriber add_charger_sub = nh.subscribe("waterplus/add_charger",10,&AddChargerCallback);
+    ros::ServiceServer srvGetNum = nh.advertiseService("waterplus/get_num_waypoint", getNumOfWaypoints);
+    ros::ServiceServer srvGetWPIndex = nh.advertiseService("waterplus/get_waypoint_index", getWaypointByIndex);
+    ros::ServiceServer srvGetWPName = nh.advertiseService("waterplus/get_waypoint_name", getWaypointByName);
+    ros::ServiceServer srvSaveWP = nh.advertiseService("waterplus/save_waypoints", saveWaypoints);
+    ros::ServiceServer srvGetChargerName = nh.advertiseService("waterplus/get_charger_name", getChargerByName);
 
     //将互动标记放到标记集合里，同时指定Feedback回调函数
     int nWPNum = arWaypoint.size();

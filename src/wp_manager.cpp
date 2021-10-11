@@ -444,17 +444,17 @@ int main(int argc, char** argv)
     marker_pub = nh.advertise<visualization_msgs::Marker>("waypoints_marker", 100);
     charger_pub = nh.advertise<visualization_msgs::Marker>("chargers_marker", 100);
     Init_Marker();
-    ros::Subscriber add_waypoint_sub = nh.subscribe("/waterplus/add_waypoint",10,&AddWayPointCallback);
-    ros::Subscriber add_charger_sub = nh.subscribe("/waterplus/add_charger",10,&AddChargerCallback);
+    ros::Subscriber add_waypoint_sub = nh.subscribe("waterplus/add_waypoint",10,&AddWayPointCallback);
+    ros::Subscriber add_charger_sub = nh.subscribe("waterplus/add_charger",10,&AddChargerCallback);
 
-    ros::ServiceServer srvGetNum = nh.advertiseService("/waterplus/get_num_waypoint", getNumOfWaypoints);
-    ros::ServiceServer srvGetWPIndex = nh.advertiseService("/waterplus/get_waypoint_index", getWaypointByIndex);
-    ros::ServiceServer srvGetWPName = nh.advertiseService("/waterplus/get_waypoint_name", getWaypointByName);
-    ros::ServiceServer srvSaveWP = nh.advertiseService("/waterplus/save_waypoints", saveWaypoints);
+    ros::ServiceServer srvGetNum = nh.advertiseService("waterplus/get_num_waypoint", getNumOfWaypoints);
+    ros::ServiceServer srvGetWPIndex = nh.advertiseService("waterplus/get_waypoint_index", getWaypointByIndex);
+    ros::ServiceServer srvGetWPName = nh.advertiseService("waterplus/get_waypoint_name", getWaypointByName);
+    ros::ServiceServer srvSaveWP = nh.advertiseService("waterplus/save_waypoints", saveWaypoints);
 
-    ros::ServiceServer srvGetChargerNum = nh.advertiseService("/waterplus/get_num_charger", getNumOfChargers);
-    ros::ServiceServer srvGetChargerIndex = nh.advertiseService("/waterplus/get_charger_index", getChargerByIndex);
-    ros::ServiceServer srvGetChargerName = nh.advertiseService("/waterplus/get_charger_name", getChargerByName);
+    ros::ServiceServer srvGetChargerNum = nh.advertiseService("waterplus/get_num_charger", getNumOfChargers);
+    ros::ServiceServer srvGetChargerIndex = nh.advertiseService("waterplus/get_charger_index", getChargerByIndex);
+    ros::ServiceServer srvGetChargerName = nh.advertiseService("waterplus/get_charger_name", getChargerByName);
 
     ros::Rate r(10);
 

@@ -58,8 +58,8 @@ int main(int argc, char** argv)
     {
         try
         {
-            listener.waitForTransform("/map","/base_footprint",  ros::Time(0), ros::Duration(10.0) );
-            listener.lookupTransform("/map","/base_footprint", ros::Time(0), transform);
+            listener.waitForTransform("map","base_footprint",  ros::Time(0), ros::Duration(10.0) );
+            listener.lookupTransform("map","base_footprint", ros::Time(0), transform);
         }
         catch (tf::TransformException &ex) 
         {

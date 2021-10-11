@@ -42,7 +42,7 @@ int main(int argc, char** argv)
     ros::init(argc, argv, "wp_saver");
 
     ros::NodeHandle nh;
-    ros::ServiceClient cliSave = nh.serviceClient<waterplus_map_tools::SaveWaypoints>("/waterplus/save_waypoints");
+    ros::ServiceClient cliSave = nh.serviceClient<waterplus_map_tools::SaveWaypoints>("waterplus/save_waypoints");
     waterplus_map_tools::SaveWaypoints srvS;
 
     std::string strSaveFile;

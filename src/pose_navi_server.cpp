@@ -62,8 +62,8 @@ int main(int argc, char** argv)
     ros::init(argc, argv, "pose_navi_server");
 
     ros::NodeHandle n;
-    ros::Subscriber navi_name_sub = n.subscribe("/waterplus/navi_pose", 10, NaviPoseCB);
-    result_pub = n.advertise<std_msgs::String>("/waterplus/navi_result", 10);
+    ros::Subscriber navi_name_sub = n.subscribe("waterplus/navi_pose", 10, NaviPoseCB);
+    result_pub = n.advertise<std_msgs::String>("waterplus/navi_result", 10);
 
     MoveBaseClient ac("move_base", true);
     move_base_msgs::MoveBaseGoal goal;

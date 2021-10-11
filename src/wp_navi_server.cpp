@@ -76,9 +76,9 @@ int main(int argc, char** argv)
     ros::init(argc, argv, "wp_navi_server");
 
     ros::NodeHandle n;
-    ros::Subscriber navi_name_sub = n.subscribe("/waterplus/navi_waypoint", 10, NaviWaypointCB);
-    result_pub = n.advertise<std_msgs::String>("/waterplus/navi_result", 10);
-    cliGetWPName = n.serviceClient<waterplus_map_tools::GetWaypointByName>("/waterplus/get_waypoint_name");
+    ros::Subscriber navi_name_sub = n.subscribe("waterplus/navi_waypoint", 10, NaviWaypointCB);
+    result_pub = n.advertise<std_msgs::String>("waterplus/navi_result", 10);
+    cliGetWPName = n.serviceClient<waterplus_map_tools::GetWaypointByName>("waterplus/get_waypoint_name");
 
     MoveBaseClient ac("move_base", true);
     move_base_msgs::MoveBaseGoal goal;
