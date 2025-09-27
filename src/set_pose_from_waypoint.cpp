@@ -41,6 +41,7 @@
 
 int main(int argc, char** argv)
 {
+    setlocale(LC_ALL,"");
     // 初始化ROS节点
     ros::init(argc, argv, "set_pose_from_waypoint_node");
     ros::NodeHandle nh;
