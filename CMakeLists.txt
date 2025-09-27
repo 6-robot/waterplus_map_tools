@@ -149,3 +149,11 @@ add_dependencies(set_pose_from_waypoint ${${PROJECT_NAME}_EXPORTED_TARGETS} ${ca
 target_link_libraries(set_pose_from_waypoint
   ${catkin_LIBRARIES}
 )
+
+add_executable(wp_set_pose
+  src/wp_set_pose.cpp
+)
+add_dependencies(wp_set_pose ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(wp_set_pose
+  ${catkin_LIBRARIES}
+)
