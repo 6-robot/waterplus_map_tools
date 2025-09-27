@@ -141,3 +141,11 @@ add_dependencies(pose_navi_server ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_E
 target_link_libraries(pose_navi_server
   ${catkin_LIBRARIES}
 )
+
+add_executable(set_pose_from_waypoint
+  src/set_pose_from_waypoint.cpp
+)
+add_dependencies(set_pose_from_waypoint ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(set_pose_from_waypoint
+  ${catkin_LIBRARIES}
+)
